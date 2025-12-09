@@ -2,33 +2,34 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven_3'
+        jdk 'JDK17'
+        maven 'Maven3'
     }
 
     stages {
-
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/YOUR_USERNAME/restassured-cucumber-ci-cd.git'
+                git branch: 'main',
+                    url: 'https://github.com/<your-username>/Restassured-Cucumber-CI-CD.git'
             }
         }
 
-        stage('Build') {
+        stage('Run API Tests') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean test'
             }
         }
+    }
 
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('Report') {
-            steps {
-                junit 'target/surefire-reports/*.xml'
-            }
+    post {
+        always {
+            publishHTML([
+                allowMissing: true,
+                keepAll: true,
+                reportDir: 'target',
+                reportFiles: 'cucumber-report.html',
+                reportName: 'Cucumber API Test Report'
+            ])
         }
     }
 }
