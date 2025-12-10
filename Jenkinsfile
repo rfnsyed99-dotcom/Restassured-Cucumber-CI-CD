@@ -22,7 +22,7 @@ pipeline {
 
         stage('Run API Tests') {
             steps {
-                sh 'mvn clean test'
+                bat 'mvn clean test'
             }
         }
     }
