@@ -23,9 +23,18 @@ pipeline {
                         deleteDir() // This wipes the workspace before anything else runs
                     }
         }
+        stage('Checkout Code') {
+                    steps {
+                        checkout scm
+                    }
+                }
+
         stage('Run API Tests') {
             steps {
-                bat 'mvn clean test'
+             dir('Restassured-Cucumber-CI-CD'){
+              bat 'mvn clean test'
+              }
+
             }
         }
     }
