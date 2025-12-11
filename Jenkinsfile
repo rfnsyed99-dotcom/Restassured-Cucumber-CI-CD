@@ -6,7 +6,7 @@ pipeline {
         maven 'Maven3'
     }
     stages {
-        stage('Checkout Code') {
+        stage('Initial Checkout') {
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -23,7 +23,7 @@ pipeline {
                         deleteDir() // This wipes the workspace before anything else runs
                     }
         }
-        stage('Checkout Code') {
+        stage('SCM Refresh') {
                     steps {
                         checkout scm
                     }
