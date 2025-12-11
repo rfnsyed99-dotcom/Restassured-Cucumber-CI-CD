@@ -31,7 +31,6 @@ pipeline {
 
         stage('Run API Tests') {
             steps {
-             dir('Restassured-Cucumber-CI-CD'){
               bat 'mvn clean test'
               }
 
