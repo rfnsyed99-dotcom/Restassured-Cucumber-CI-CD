@@ -27,9 +27,11 @@ pipeline {
         }
 
         stage('Run API Tests') {
-            steps {
-                bat 'mvn clean test'
-            }
+                    steps {
+                        dir('Restassured-Cucumber-CI-CD') {
+                            bat 'mvn clean test'
+                        }
+                    }
         }
     }
 
