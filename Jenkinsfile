@@ -28,13 +28,20 @@ pipeline {
 
     post {
         always {
-            publishHTML([
-                allowMissing: true,
-                keepAll: true,
-                reportDir: 'target',
-                reportFiles: 'cucumber-report.html',
-                reportName: 'Cucumber API Test Report'
-            ])
+            script {
+                def reportPath = 'target/cucumber-report.html'
+                if (fileExists(reportPath)) {
+                    publishHTML([
+                        allowMissing: false,
+                        keepAll: true,
+                        reportDir: 'target',
+                        reportFiles: 'cucumber-report.html',
+                        reportName: 'Cucumber API Test Report'
+                    ])
+                } else {
+                    echo "Report not found at ${reportPath}. Skipping publishHTML."
+                }
+            }
         }
     }
 }
