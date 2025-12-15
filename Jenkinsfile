@@ -5,6 +5,7 @@ pipeline {
         jdk 'JDK17'
         maven 'Maven3'
     }
+
     stages {
         stage('Initial Checkout') {
             steps {
@@ -18,25 +19,20 @@ pipeline {
                 ])
             }
         }
+
         stage('Clean Workspace') {
-                    steps {
-                        deleteDir() // This wipes the workspace before anything else runs
-                    }
+            steps {
+                deleteDir()
+            }
         }
-        stage('SCM Refresh') {
-                    steps {
-                        checkout scm
-                    }
-                }
 
         stage('Run API Tests') {
             steps {
-              bat 'mvn clean test'
-              }
-
+                bat 'mvn clean test'
             }
         }
     }
+
     post {
         always {
             publishHTML([
