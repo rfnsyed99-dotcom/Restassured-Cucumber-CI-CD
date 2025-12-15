@@ -7,30 +7,21 @@ pipeline {
     }
 
     stages {
-        stage('Initial Checkout') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/rfnsyed99-dotcom/Restassured-Cucumber-CI-CD.git',
-                        credentialsId: 'github-pat'
-                    ]]
-                ])
-            }
-        }
-
         stage('Clean Workspace') {
             steps {
                 deleteDir()
             }
         }
 
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Run API Tests') {
             steps {
-                dir('Restassured-Cucumber-CI-CD') {
-                    bat 'mvn clean test'
-                }
+                bat 'mvn clean test'
             }
         }
     }
@@ -40,7 +31,7 @@ pipeline {
             publishHTML([
                 allowMissing: true,
                 keepAll: true,
-                reportDir: 'Restassured-Cucumber-CI-CD/target',
+                reportDir: 'target',
                 reportFiles: 'cucumber-report.html',
                 reportName: 'Cucumber API Test Report'
             ])
