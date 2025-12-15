@@ -27,11 +27,11 @@ pipeline {
         }
 
         stage('Run API Tests') {
-                    steps {
-                        dir('Restassured-Cucumber-CI-CD') {
-                            bat 'mvn clean test'
-                        }
-                    }
+            steps {
+                dir('Restassured-Cucumber-CI-CD') {
+                    bat 'mvn clean test'
+                }
+            }
         }
     }
 
@@ -40,7 +40,7 @@ pipeline {
             publishHTML([
                 allowMissing: true,
                 keepAll: true,
-                reportDir: 'target',
+                reportDir: 'Restassured-Cucumber-CI-CD/target',
                 reportFiles: 'cucumber-report.html',
                 reportName: 'Cucumber API Test Report'
             ])
